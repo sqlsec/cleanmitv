@@ -52,6 +52,7 @@ CleanMiTV 的底子来自 **[CleanYourTV](https://github.com/Gathin23/cleanyourt
 
 - 横屏演示（1920×1080，27 秒）：[cleanmitv-demo-landscape.mp4](docs/cleanmitv/cleanmitv-demo-landscape.mp4)
 - 竖屏版（1080×1920，适合小红书 / 抖音）：[cleanmitv-xiaohongshu-vertical.mp4](docs/cleanmitv/cleanmitv-xiaohongshu-vertical.mp4)
+- 双画面竖屏版（1080×1920，8 秒，上下两段实机录屏）：[cleanmitv-dual-vertical.mp4](docs/cleanmitv/cleanmitv-dual-vertical.mp4)
 
 ## 下载与安装
 
