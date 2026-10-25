@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+  <rect x="80" y="1420" width="920" height="170" rx="42" fill="#07111f" fill-opacity=".82" stroke="#60a5fa" stroke-opacity=".45"/>
+  <text x="540" y="1518" text-anchor="middle" fill="#fff" font-family="PingFang SC, Heiti SC, sans-serif" font-size="44" font-weight="600">APP 主色跟随焦点自然过渡</text>
+</svg>

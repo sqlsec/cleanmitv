@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+  <rect x="80" y="1420" width="920" height="170" rx="42" fill="#07111f" fill-opacity=".82" stroke="#a78bfa" stroke-opacity=".45"/>
+  <text x="540" y="1495" text-anchor="middle" fill="#fff" font-family="PingFang SC, Heiti SC, sans-serif" font-size="43" font-weight="600">动态背景优化 · 保留丝滑交互</text>
+  <text x="540" y="1552" text-anchor="middle" fill="#cbd5e1" font-family="PingFang SC, Heiti SC, sans-serif" font-size="28">可在隐藏设置中单独关闭背景漂移</text>
+</svg>

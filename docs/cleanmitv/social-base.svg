@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+  <style>
+    .title { fill:#fff; font:700 88px 'PingFang SC','Heiti SC',sans-serif; letter-spacing:1px; }
+    .sub { fill:#dbeafe; font:500 38px 'PingFang SC','Heiti SC',sans-serif; }
+    .foot { fill:#cbd5e1; font:500 28px 'PingFang SC','Heiti SC',sans-serif; }
+  </style>
+  <text x="540" y="190" text-anchor="middle" class="title">CleanMiTV</text>
+  <text x="540" y="260" text-anchor="middle" class="sub">小米电视 · 简洁桌面改造</text>
+  <text x="540" y="1815" text-anchor="middle" class="foot">github.com/sqlsec/cleanmitv</text>
+</svg>
