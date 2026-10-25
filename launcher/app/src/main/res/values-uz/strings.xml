@@ -38,11 +38,8 @@
     <string name="wallpaper_applied">Fon rasmi oʻzgartirildi</string>
     <string name="wallpaper_theme_default">Mavzu boʻyicha</string>
     <string name="animations_state">Animatsiyalar: %1$s</string>
-    <string name="advanced_effects">Qoʻshimcha effektlar</string>
-    <string name="advanced_effects_state">Qoʻshimcha effektlar: %1$s</string>
     <string name="open_on_start_label">Ishga tushganda ochish</string>
     <string name="open_on_start_state">Ishga tushganda ochish: %1$s</string>
-    <string name="advanced_effects_warning">Plitkani koʻtarish, belgini kattalashtirish va ranglarning silliq oʻtishini qoʻshadi. Xotira sarfi oshishi mumkin; farq televizoringizga bogʻliq.</string>
     <string name="follow_theme">Mavzuga qaytish (TVdagi tanlovlarni bekor qilish)</string>
     <string name="follow_theme_hint">Joriy mavzu yoki standart joylashuv va harakat sozlamalaridan foydalanadi. Mavzuni yuborish yoki qayta tiklash ham TVdagi tanlovlaringizni tozalaydi.</string>
     <string name="tv_settings">TV tizim sozlamalari</string>

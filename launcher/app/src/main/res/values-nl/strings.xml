@@ -38,11 +38,8 @@
     <string name="wallpaper_applied">Achtergrond gewijzigd</string>
     <string name="wallpaper_theme_default">Standaard van het thema</string>
     <string name="animations_state">Animaties: %1$s</string>
-    <string name="advanced_effects">Geavanceerde effecten</string>
-    <string name="advanced_effects_state">Geavanceerde effecten: %1$s</string>
     <string name="open_on_start_label">Openen bij opstarten</string>
     <string name="open_on_start_state">Openen bij opstarten: %1$s</string>
-    <string name="advanced_effects_warning">Voegt een zwevende tegel, icoonzoom en vloeiende kleurovergangen toe. Kan meer geheugen gebruiken; het werkelijke verschil hangt af van je tv.</string>
     <string name="follow_theme">Thema volgen (keuzes op de tv wissen)</string>
     <string name="follow_theme_hint">Gebruikt de indeling en beweging van het huidige thema of de ingebouwde instellingen. Een thema pushen of resetten wist ook je keuzes op de tv.</string>
     <string name="tv_settings">Systeeminstellingen van de tv</string>

@@ -27,11 +27,8 @@
     <string name="columns_label">Aplicacions per fila</string>
     <string name="dock_opacity_label">Opacitat de la barra del dock</string>
     <string name="animations_state">Animacions: %1$s</string>
-    <string name="advanced_effects">Efectes avançats</string>
-    <string name="advanced_effects_state">Efectes avançats: %1$s</string>
     <string name="open_on_start_label">Obre en iniciar</string>
     <string name="open_on_start_state">Obre en iniciar: %1$s</string>
-    <string name="advanced_effects_warning">Eleva les targetes, amplia les icones i suavitza els canvis de color. Pot augmentar l’ús de memòria; depèn del televisor.</string>
     <string name="follow_theme">Segueix el tema (restableix els ajustos)</string>
     <string name="follow_theme_hint">Utilitza la disposició i els efectes del tema actual o els valors integrats. Aplicar o restablir un tema també esborra aquests ajustos.</string>
     <string name="tv_settings">Configuració del televisor</string>

@@ -21,6 +21,9 @@
             android:textColor="#FFFFFFFF"
             android:textSize="34sp" />
 
+        <TextView android:id="@+id/appearanceChoice" style="@style/SettingsRow" android:layout_marginTop="24dp" />
+        <TextView android:id="@+id/backgroundChoice" style="@style/SettingsRow" android:layout_marginTop="10dp" />
+        <TextView android:id="@+id/displayInfo" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:textSize="14sp" android:textColor="#ACB8C1" />
         <TextView
             android:id="@+id/reorderChoice"
             style="@style/SettingsRow"
@@ -99,15 +102,16 @@
             android:layout_marginTop="28dp" />
 
         <TextView
-            android:id="@+id/advancedChoice"
+            android:id="@+id/ambientMotionChoice"
             style="@style/SettingsRow"
             android:layout_marginTop="10dp" />
 
         <TextView
+            android:id="@+id/ambientMotionHint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/advanced_effects_warning"
+            android:layout_marginTop="7dp"
+            android:text="@string/ambient_motion_hint"
             android:textColor="#FFACB8C1"
             android:textSize="14sp" />
 

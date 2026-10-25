@@ -29,14 +29,14 @@ public final class LauncherSettingsActivity extends Activity {
     private final TextView[] dockChoices = new TextView[DOCK_OPACITIES.length];
     private TextView wallpaperChoice;
     private TextView animationsChoice;
-    private TextView advancedChoice;
+    private TextView ambientMotionChoice;
     private TextView followThemeChoice;
     private TextView openOnStartChoice;
     private int columns;
     private int rowsBelowDock;
     private int dockOpacity;
     private boolean animations;
-    private boolean advancedEffects;
+    private boolean ambientMotion;
 
     @Override
     protected void onCreate(Bundle state) {
@@ -54,7 +54,7 @@ public final class LauncherSettingsActivity extends Activity {
         rowsBelowDock = config.rowsBelowDock;
         dockOpacity = config.dockOpacity;
         animations = config.animations;
-        advancedEffects = config.animations && config.advancedEffects;
+        ambientMotion = PersonalAppearance.ambientMotion(this);
 
         int[] ids = {R.id.columns4, R.id.columns5, R.id.columns6, R.id.columns7};
         for (int i = 0; i < ids.length; i++) {
@@ -104,24 +104,16 @@ public final class LauncherSettingsActivity extends Activity {
         animationsChoice = findViewById(R.id.animationsChoice);
         animationsChoice.setOnClickListener(v -> {
             animations = !animations;
-            if (!animations) advancedEffects = false;
-            choices.edit().putBoolean("animations", animations)
-                    .putBoolean("advanced_effects", advancedEffects).apply();
+            choices.edit().putBoolean("animations", animations).apply();
             changed();
             refresh();
         });
-        advancedChoice = findViewById(R.id.advancedChoice);
-        advancedChoice.setOnClickListener(v -> {
-            if (advancedEffects) {
-                setAdvanced(false);
-            } else {
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.advanced_effects)
-                        .setMessage(R.string.advanced_effects_warning)
-                        .setPositiveButton(R.string.enable, (dialog, which) -> setAdvanced(true))
-                        .setNegativeButton(android.R.string.cancel, null)
-                        .show();
-            }
+        ambientMotionChoice = findViewById(R.id.ambientMotionChoice);
+        ambientMotionChoice.setOnClickListener(v -> {
+            ambientMotion = !ambientMotion;
+            choices.edit().putBoolean(PersonalAppearance.AMBIENT_MOTION_KEY, ambientMotion).apply();
+            changed();
+            refresh();
         });
         openOnStartChoice = findViewById(R.id.openOnStartChoice);
         if (config.openOnStartChoice) {
@@ -133,13 +125,15 @@ public final class LauncherSettingsActivity extends Activity {
             if (!hasOnTvChoices()) return;
             choices.edit().remove("columns").remove(Config.ROWS_BELOW_DOCK_KEY).remove("animations")
                     .remove("advanced_effects").remove(Config.WALLPAPER_CHOICE_KEY)
-                    .remove(Config.DOCK_OPACITY_KEY).remove(OpenOnStart.KEY).commit();
+                    .remove(Config.DOCK_OPACITY_KEY).remove(PersonalAppearance.MODE_KEY)
+                    .remove(PersonalAppearance.BACKGROUND_KEY).remove(PersonalAppearance.AMBIENT_MOTION_KEY)
+                    .remove(OpenOnStart.KEY).commit();
             Config current = Config.load(this);
             columns = current.columns;
             rowsBelowDock = current.rowsBelowDock;
             dockOpacity = current.dockOpacity;
             animations = current.animations;
-            advancedEffects = current.animations && current.advancedEffects;
+            ambientMotion = PersonalAppearance.ambientMotion(this);
             changed();
             refresh();
         });
@@ -149,7 +143,22 @@ public final class LauncherSettingsActivity extends Activity {
         });
         findViewById(R.id.tvSettingsChoice).setOnClickListener(v ->
                 open(SystemSettings.intent(this, Settings.ACTION_SETTINGS)));
+        TextView appearance = findViewById(R.id.appearanceChoice);
+        appearance.setVisibility(PersonalAppearance.enabled(this) ? View.VISIBLE : View.GONE);
+        appearance.setOnClickListener(view -> showAppearancePicker());
+        TextView backgroundChoice = findViewById(R.id.backgroundChoice);
+        backgroundChoice.setVisibility(PersonalAppearance.enabled(this) ? View.VISIBLE : View.GONE);
+        backgroundChoice.setOnClickListener(view -> new AlertDialog.Builder(this).setTitle("背景风格")
+                .setSingleChoiceItems(new String[]{"APP主色渐变 · 随焦点平滑变化", "壁纸 · 使用已选图片"},
+                        PersonalAppearance.appBackdrop(this) ? 0 : 1, (dialog, which) -> {
+                            choices.edit().putString(PersonalAppearance.BACKGROUND_KEY, which == 0 ? "app" : "wallpaper").apply();
+                            changed(); refresh(); dialog.dismiss();
+                        }).setNegativeButton(android.R.string.cancel, null).show());
+        TextView displayInfo = findViewById(R.id.displayInfo);
+        displayInfo.setVisibility(PersonalAppearance.enabled(this) ? View.VISIBLE : View.GONE);
+        displayInfo.setText("桌面显示：" + Math.round(getWindowManager().getDefaultDisplay().getRefreshRate()) + " Hz · 使用系统可用的最高刷新率");
         refresh();
+        PersonalAppearance.settings(this);
         if (config.launcherSettingsButton) reorderChoice.requestFocus();
         else columnChoices[Math.max(0, Math.min(columns - 4, 3))].requestFocus();
     }
@@ -160,13 +169,39 @@ public final class LauncherSettingsActivity extends Activity {
         for (int i = views.length - 1; i >= 0; i--) row.addView(views[i]);
     }
 
+    private void showAppearancePicker() {
+        String[] modes = {"night", "day", "auto"};
+        String[] labels = {"夜间 · 深色玻璃", "日间 · 明亮通透", "自动 · 07:00–19:00 为日间"};
+        String current = PersonalAppearance.mode(this);
+        int selected = "day".equals(current) ? 1 : "auto".equals(current) ? 2 : 0;
+        new AlertDialog.Builder(this).setTitle("外观模式")
+                .setSingleChoiceItems(labels, selected, (dialog, which) -> {
+                    choices.edit().putString(PersonalAppearance.MODE_KEY, modes[which]).apply();
+                    changed();
+                    dialog.dismiss();
+                    refresh();
+                    PersonalAppearance.settings(this);
+                }).setNegativeButton(android.R.string.cancel, null).show();
+    }
+
     private void showWallpaperPicker() {
         File dir = Config.dir(this);
         List<File> images = new java.util.ArrayList<>(WallpaperRotation.images(
                 dir == null ? null : new File(dir, "wallpapers")));
         // A theme with a single wallpaper.jpg offers that picture too (Config maps the choice back to it).
         File single = dir == null ? null : new File(dir, Config.WALLPAPER_NAME);
-        if (single != null && single.isFile()) images.add(0, single);
+        if (single != null && single.isFile()
+                && (!PersonalAppearance.enabled(this) || images.isEmpty())) images.add(0, single);
+        if (PersonalAppearance.enabled(this)) {
+            WallpaperPicker.show(this, images, choice -> {
+                choices.edit().putString(PersonalAppearance.BACKGROUND_KEY, "wallpaper").apply();
+                if (choice == null) choices.edit().remove(Config.WALLPAPER_CHOICE_KEY).apply();
+                else choices.edit().putString(Config.WALLPAPER_CHOICE_KEY, choice).apply();
+                changed();
+                refresh();
+            });
+            return;
+        }
         String[] labels = new String[images.size() + 1];
         for (int i = 0; i < images.size(); i++) labels[i] = images.get(i).getName();
         labels[images.size()] = getString(R.string.wallpaper_none);
@@ -262,14 +297,12 @@ public final class LauncherSettingsActivity extends Activity {
                 choices.getLong(Config.SETTINGS_REVISION_KEY, 0) + 1).apply();
     }
 
-    private void setAdvanced(boolean enabled) {
-        advancedEffects = enabled;
-        choices.edit().putBoolean("advanced_effects", enabled).apply();
-        changed();
-        refresh();
-    }
-
     private void refresh() {
+        TextView appearance = findViewById(R.id.appearanceChoice);
+        TextView backgroundChoice = findViewById(R.id.backgroundChoice);
+        if (backgroundChoice != null) backgroundChoice.setText(PersonalAppearance.appBackdrop(this)
+                ? "背景：APP主色渐变" : "背景：壁纸");
+        if (appearance != null) appearance.setText("外观模式：" + AppearancePolicy.label(PersonalAppearance.mode(this)));
         for (int i = 0; i < columnChoices.length; i++) {
             columnChoices[i].setSelected(columns == i + 4);
         }
@@ -281,14 +314,17 @@ public final class LauncherSettingsActivity extends Activity {
         }
         animationsChoice.setText(getString(R.string.animations_state,
                 getString(animations ? R.string.on : R.string.off)));
-        advancedChoice.setText(getString(R.string.advanced_effects_state,
-                getString(advancedEffects ? R.string.on : R.string.off)));
-        advancedChoice.setEnabled(animations);
-        advancedChoice.setAlpha(animations ? 1f : 0.5f);
+        boolean appBackground = PersonalAppearance.appBackdrop(this);
+        ambientMotionChoice.setVisibility(appBackground ? View.VISIBLE : View.GONE);
+        findViewById(R.id.ambientMotionHint).setVisibility(appBackground ? View.VISIBLE : View.GONE);
+        ambientMotionChoice.setText(getString(R.string.ambient_motion_state,
+                getString(animations && ambientMotion ? R.string.on : R.string.off)));
+        ambientMotionChoice.setEnabled(animations);
+        ambientMotionChoice.setAlpha(animations ? 1f : 0.5f);
         String wallpaperCurrent = choices.getString(Config.WALLPAPER_CHOICE_KEY, null);
         wallpaperChoice.setText(getString(R.string.wallpaper_state,
                 "none".equals(wallpaperCurrent) ? getString(R.string.wallpaper_none)
-                        : wallpaperCurrent != null ? wallpaperCurrent
+                        : wallpaperCurrent != null ? PersonalAppearance.wallpaperName(wallpaperCurrent)
                         : getString(R.string.wallpaper_theme_default)));
         openOnStartChoice.setText(getString(R.string.open_on_start_state, openOnStartLabel()));
         followThemeChoice.setSelected(!hasOnTvChoices());
@@ -296,9 +332,10 @@ public final class LauncherSettingsActivity extends Activity {
 
     private boolean hasOnTvChoices() {
         return choices.contains("columns") || choices.contains(Config.ROWS_BELOW_DOCK_KEY)
-                || choices.contains("animations") || choices.contains("advanced_effects")
+                || choices.contains("animations")
                 || choices.contains(Config.WALLPAPER_CHOICE_KEY) || choices.contains(Config.DOCK_OPACITY_KEY)
-                || choices.contains(OpenOnStart.KEY);
+                || choices.contains(PersonalAppearance.MODE_KEY) || choices.contains(PersonalAppearance.BACKGROUND_KEY)
+                || choices.contains(PersonalAppearance.AMBIENT_MOTION_KEY) || choices.contains(OpenOnStart.KEY);
     }
 
     private void open(Intent intent) {

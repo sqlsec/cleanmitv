@@ -30,11 +30,8 @@
     <string name="columns_label">Sovelluksia rivillä</string>
     <string name="dock_opacity_label">Telakkapalkin peittävyys</string>
     <string name="animations_state">Animaatiot: %1$s</string>
-    <string name="advanced_effects">Lisätehosteet</string>
-    <string name="advanced_effects_state">Lisätehosteet: %1$s</string>
     <string name="open_on_start_label">Avaa käynnistettäessä</string>
     <string name="open_on_start_state">Avaa käynnistettäessä: %1$s</string>
-    <string name="advanced_effects_warning">Lisää ruudun noston, kuvakkeen zoomauksen ja pehmeät värisiirtymät. Voi lisätä muistinkäyttöä; todellinen ero riippuu televisiosta.</string>
     <string name="follow_theme">Noudata teemaa (nollaa televisiossa tehdyt valinnat)</string>
     <string name="follow_theme_hint">Käyttää nykyisen teeman tai sisäänrakennettuja asettelu- ja liikeasetuksia. Teeman lähettäminen tai nollaaminen poistaa myös televisiossa tehdyt valinnat.</string>
     <string name="tv_settings">Television järjestelmäasetukset</string>

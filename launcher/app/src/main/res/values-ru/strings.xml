@@ -77,11 +77,8 @@
     <string name="wallpaper_applied">Обои изменены</string>
     <string name="wallpaper_theme_default">Как в теме</string>
     <string name="animations_state">Анимация: %1$s</string>
-    <string name="advanced_effects">Расширенные эффекты</string>
-    <string name="advanced_effects_state">Расширенные эффекты: %1$s</string>
     <string name="open_on_start_label">Открывать при запуске</string>
     <string name="open_on_start_state">Открывать при запуске: %1$s</string>
-    <string name="advanced_effects_warning">Приподнимает плитки, увеличивает значки и сглаживает переходы цвета. Может увеличить расход памяти; результат зависит от телевизора.</string>
     <string name="follow_theme">Следовать теме (сбросить выбор)</string>
     <string name="follow_theme_hint">Использовать параметры расположения и анимации текущей темы или встроенные. Установка или сброс темы также удаляет выбор на телевизоре.</string>
     <string name="tv_settings">Системные настройки ТВ</string>

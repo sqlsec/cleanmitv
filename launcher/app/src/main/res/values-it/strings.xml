@@ -33,11 +33,8 @@
     <string name="wallpaper_applied">Sfondo cambiato</string>
     <string name="wallpaper_theme_default">Predefinito del tema</string>
     <string name="animations_state">Animazioni: %1$s</string>
-    <string name="advanced_effects">Effetti avanzati</string>
-    <string name="advanced_effects_state">Effetti avanzati: %1$s</string>
     <string name="open_on_start_label">Apri all\'avvio</string>
     <string name="open_on_start_state">Apri all\'avvio: %1$s</string>
-    <string name="advanced_effects_warning">Aggiunge riquadro sollevato, zoom dell\'icona e transizioni di colore fluide. Può aumentare l\'uso di memoria; la differenza dipende dalla TV.</string>
     <string name="follow_theme">Segui il tema (azzera le scelte fatte sulla TV)</string>
     <string name="follow_theme_hint">Usa il tema corrente o le impostazioni predefinite di layout e animazioni. Applicare o reimpostare un tema cancella anche le scelte fatte sulla TV.</string>
     <string name="tv_settings">Impostazioni di sistema della TV</string>

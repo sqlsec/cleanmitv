@@ -16,6 +16,10 @@ final class SystemSettings {
     static Intent intent(Context context, String action) {
         PackageManager pm = context.getPackageManager();
         Intent standard = new Intent(action);
+        if (PersonalAppearance.enabled(context) && Settings.ACTION_SETTINGS.equals(action)) {
+            Intent nativeSettings = vendorIntent(context);
+            if (nativeSettings != null) return nativeSettings;
+        }
         ResolveInfo resolved = pm.resolveActivity(standard, PackageManager.MATCH_DEFAULT_ONLY);
         // Fire OS resolves the standard actions to a CTS compliance stub that opens nothing;
         // treat it as missing so the vendor fallback runs.

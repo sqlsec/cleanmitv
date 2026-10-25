@@ -69,7 +69,8 @@ final class WallpaperPlayer {
         interval = config.wallpaperRotationMinutes * 60_000L;
         bitmapConfig = config.wallpaperTrueColor ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565;
         // The dim is painted into the picture (decode), so no full-screen shade layer is drawn on every frame.
-        dimColor = config.wallpaperDim > 0 ? (config.wallpaperDim * 255 / 100) << 24 : 0;
+        dimColor = PersonalAppearance.day(context) ? 0xB8EDF3FA
+                : config.wallpaperDim > 0 ? (config.wallpaperDim * 255 / 100) << 24 : 0;
         order = config.wallpaperOrder;
         preferences = context.getSharedPreferences("wallpaper_rotation", Context.MODE_PRIVATE);
         moods = config.wallpaperMoods;
@@ -94,7 +95,8 @@ final class WallpaperPlayer {
         if (config.wallpaperEnabled && !files.isEmpty()) {
             root.addView(image, 0, new FrameLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            showFirst();
+            if (PersonalAppearance.enabled(context)) showFirstAsync();
+            else showFirst();
         }
     }
 
@@ -126,6 +128,42 @@ final class WallpaperPlayer {
             playable = playable();
             first = WallpaperRotation.pick(playable, previous, order, random);
         }
+    }
+
+    /** The local profile lets icons respond before decoding a full-screen picture. */
+    private void showFirstAsync() {
+        String previous = preferences.getString("image", "");
+        List<File> candidates = playable();
+        File selected = WallpaperRotation.find(candidates, previous);
+        if (selected == null) selected = WallpaperRotation.pick(candidates, previous, order, random);
+        if (selected == null || closed) return;
+        final File first = selected;
+        loading = true;
+        decoder.execute(() -> {
+            Bitmap bitmap = decode(first);
+            root.post(() -> {
+                loading = false;
+                if (closed) {
+                    if (bitmap != null) bitmap.recycle();
+                    return;
+                }
+                if (bitmap == null) {
+                    files.remove(first);
+                    showFirstAsync();
+                    return;
+                }
+                show(bitmap);
+                displayed = first.getName();
+                showCaption(false);
+                root.setBackgroundColor(backgroundColor);
+                image.setAlpha(0f);
+                image.animate().alpha(1f).setDuration(160).withEndAction(() -> {
+                    if (!closed) root.setBackground(null);
+                }).start();
+                if (!displayed.equals(previous)) preferences.edit().putString("image", displayed)
+                        .putLong("changed", System.currentTimeMillis()).apply();
+            });
+        });
     }
 
     void start() {

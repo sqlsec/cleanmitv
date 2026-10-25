@@ -29,11 +29,8 @@
     <string name="columns_label">Aplicaciones por fila</string>
     <string name="dock_opacity_label">Opacidad de la barra del dock</string>
     <string name="animations_state">Animaciones: %1$s</string>
-    <string name="advanced_effects">Efectos avanzados</string>
-    <string name="advanced_effects_state">Efectos avanzados: %1$s</string>
     <string name="open_on_start_label">Abrir al iniciar</string>
     <string name="open_on_start_state">Abrir al iniciar: %1$s</string>
-    <string name="advanced_effects_warning">Eleva las tarjetas, amplía los iconos y suaviza los cambios de color. Puede aumentar el uso de memoria; depende del televisor.</string>
     <string name="follow_theme">Seguir el tema (restablecer ajustes)</string>
     <string name="follow_theme_hint">Usa el diseño y los efectos del tema actual o los valores integrados. Aplicar o restablecer un tema también borra estos ajustes.</string>
     <string name="tv_settings">Ajustes del televisor</string>
